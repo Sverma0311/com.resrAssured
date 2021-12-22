@@ -59,6 +59,16 @@ public class UserTest {
         //Assert.assertEquals(getRes.getBody().jsonPath().get("name"),"Ravi");
     }
 
+    @Test(dependsOnMethods = "verifyCreateUserApi")
+        public void verifyDeletedUser(){
+        Response deleteReq = Util.getRequestSpecification().pathParams("id",id).delete("/users/{id}");
+        deleteReq.then().log().all();
+        Assert.assertEquals(deleteReq.getStatusCode(),204);
+        //==========================================================
+        Response getReq = Util.getRequestSpecification().pathParams("id",id).get("/users/{id}");
+        getReq.then().log().all();
+        Assert.assertEquals(getReq.getStatusCode(),404);
+    }
 
 
 }
